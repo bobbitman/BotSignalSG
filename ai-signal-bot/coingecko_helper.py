@@ -73,9 +73,9 @@ class CoinGeckoHelper:
                 return coin_mapping[variation]
         
         # Search in coin names (partial match)
-        for name, coin_id in coin_mapping.items():
-            if ticker_lower in name or name in ticker_lower:
-                return coin_id
+        #for name, coin_id in coin_mapping.items():
+        #    if ticker_lower in name or name in ticker_lower:
+        #        return coin_id
         
         logger.warning(f"Could not find coin ID for ticker: {ticker}")
         return None
