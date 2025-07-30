@@ -43,7 +43,7 @@ Structure your analysis like this:
 📊 Support: $X.XX
 ⛔ Stop Loss: $X.XX
 💰 Risk/Reward: X:X
-🧓 Uncle say: Give a short 1-2 sentence summary including target profit levels with realistic expectations and current market conditions in smart, not overly-done singlish.
+🧓 Uncle say: Give a short 1-2 sentence summary in smart, not overly-done singlish.
 """
         return prompt.strip()
     
