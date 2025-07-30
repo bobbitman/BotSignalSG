@@ -51,7 +51,7 @@ def test_openai_connection():
         openai.api_key = Config.OPENAI_API_KEY
         
         # Simple test request
-        response = openai.ChatCompletion.create(
+        response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": "Say 'Hello from OpenAI!'"}],
             max_tokens=10
