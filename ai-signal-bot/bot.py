@@ -108,9 +108,7 @@ Need help? Just ask! 🚀
             
             if not coin_analysis['success']:
                 await thinking_msg.edit_text(
-                    f"❌ *Error:* {coin_analysis['error']}\n\n"
-                    "Try using a different ticker symbol or check the spelling!\n"
-                    "Examples: `btc`, `eth`, `sol`, `arb`",
+                    f"Aiyo, I never hear of '{ticker.upper()}' leh. Can try another coin?",
                     parse_mode=ParseMode.MARKDOWN
                 )
                 return
