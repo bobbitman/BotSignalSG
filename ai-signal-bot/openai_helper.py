@@ -38,17 +38,14 @@ Current Market Data:
 - Current Price: ${usd_price:.4f} USD (S${sgd_price:.4f} SGD)
 - 24h Change: {change_24h:.2f}%
 
-Please provide analysis in a conversational Singlish tone and include:
-
-1. **Support and Resistance Zones**: Based on current price levels
-2. **Entry Strategy**: Best entry points for swing trading
-3. **Stop Loss**: Recommended stop loss levels (percentage and price)
-4. **Take Profit**: Target profit levels with realistic expectations
-5. **Risk/Reward Ratio**: Calculate potential R:R for the trade
-6. **Market Sentiment**: Brief assessment of current market conditions
-7. **Swing Trading Summary**: 3-sentence summary for quick decision making
-
-Keep the response under 400 words and use some light Singlish expressions naturally. Focus on practical, actionable advice for a retail trader in Singapore.
+Structure your analysis like this:
+- Resistance: $X.XX
+- Support: $X.XX
+- Stop Loss: $X.XX
+- Risk/Reward: X:X
+- Take Profit: Target profit levels with realistic expectations.
+- Market Sentiment: Brief 1-sentence assessment of current market conditions.
+- Summary: Give a short 1-2 sentence summary. Eg. “Still got some upside, but a bit risky now lah. Wait for pullback better.
 """
         return prompt.strip()
     
@@ -72,7 +69,7 @@ Keep the response under 400 words and use some light Singlish expressions natura
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a professional crypto analyst with expertise in technical analysis and swing trading. You provide clear, actionable advice with a friendly Singlish touch for Singapore traders."
+                        "content": "You are a helpful expert crypto trading assistant based in Singapore. Speak in a slightly Singlish tone, like how locals talk. Keep your replies short, friendly, and a bit cheeky if appropriate. Use terms like ""lah"", ""leh"", ""wait a bit"", ""can consider"", ""not bad"", but do not overdo it."
                     },
                     {
                         "role": "user",

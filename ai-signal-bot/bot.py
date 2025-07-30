@@ -124,8 +124,8 @@ Need help? Just ask! 🚀
             
             if not ai_analysis:
                 await thinking_msg.edit_text(
-                    f"❌ Sorry, I couldn't generate analysis for {ticker.upper()} right now.\n\n"
-                    "Please try again in a moment!",
+                    f"❌ I couldn't generate analysis for {ticker.upper()} right now.\n\n"
+                    "I blur a bit leh, can try again later?",
                     parse_mode=ParseMode.MARKDOWN
                 )
                 return
