@@ -39,13 +39,11 @@ Current Market Data:
 - 24h Change: {change_24h:.2f}%
 
 Structure your analysis like this:
-- Resistance: $X.XX
-- Support: $X.XX
-- Stop Loss: $X.XX
-- Risk/Reward: X:X
-- Take Profit: Target profit levels with realistic expectations.
-- Market Sentiment: Brief 1-sentence assessment of current market conditions.
-- Summary: Give a short 1-2 sentence summary. Eg. “Still got some upside, but a bit risky now lah. Wait for pullback better.
+🚧 Resistance: $X.XX
+📊 Support: $X.XX
+⛔ Stop Loss: $X.XX
+💰 Risk/Reward: X:X
+🧠 Summary: Give a short 1-2 sentence summary including target profit levels with realistic expectations and current market conditions.
 """
         return prompt.strip()
     
