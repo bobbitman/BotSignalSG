@@ -137,7 +137,8 @@ Need help? Just ask! 🚀
             
             await thinking_msg.edit_text(
                 formatted_response,
-                parse_mode=ParseMode.MARKDOWN
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True
             )
             
             logger.info(f"Successfully provided analysis for {ticker} to user {update.effective_user.id}")
