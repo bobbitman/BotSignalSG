@@ -121,8 +121,8 @@ Structure your analysis like this:
 
 ---
 
-⚠️ *Disclaimer:* This analysis is for educational purposes only. Always DYOR (Do Your Own Research) and never invest more than you can afford to lose!
+⚠️ *Disclaimer:* Not financial advice. Do your own research before trading. Crypto can go up, down, and sideways — just like kopi prices.
 
-_Powered by @BotSignalSGBot 🤖_
+Powered by @BotSignalSGBot 🤖. Dun say I bo jio ah.  \n\nSource: [CoinGecko](https://coingecko.com)
 """
         return header.strip()
