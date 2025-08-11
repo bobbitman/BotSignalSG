@@ -1,5 +1,6 @@
 import logging
 import os
+import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 from telegram.constants import ParseMode
@@ -108,7 +109,9 @@ Need help? Just ask! 🚀
             
             if not coin_analysis['success']:
                 await thinking_msg.edit_text(
-                    f"Aiyo, I never hear of '{ticker.upper()}' leh. Can try another coin?",
+                    f"❌ *Error:* {coin_analysis['error']}\n\n"
+                    "Try using a different ticker symbol or check the spelling!\n"
+                    "Examples: `btc`, `eth`, `sol`, `arb`",
                     parse_mode=ParseMode.MARKDOWN
                 )
                 return
@@ -122,8 +125,8 @@ Need help? Just ask! 🚀
             
             if not ai_analysis:
                 await thinking_msg.edit_text(
-                    f"❌ I couldn't generate analysis for {ticker.upper()} right now.\n\n"
-                    "I blur a bit leh, can try again later?",
+                    f"❌ Sorry, I couldn't generate analysis for {ticker.upper()} right now.\n\n"
+                    "Please try again in a moment!",
                     parse_mode=ParseMode.MARKDOWN
                 )
                 return
@@ -137,8 +140,7 @@ Need help? Just ask! 🚀
             
             await thinking_msg.edit_text(
                 formatted_response,
-                parse_mode=ParseMode.MARKDOWN,
-                disable_web_page_preview=True
+                parse_mode=ParseMode.MARKDOWN
             )
             
             logger.info(f"Successfully provided analysis for {ticker} to user {update.effective_user.id}")
@@ -187,7 +189,12 @@ Need help? Just ask! 🚀
                 raise Exception(f"Bot connection failed: HTTP {test_response.status_code}")
             
             # Create application
-            application = Application.builder().token(Config.TELEGRAM_BOT_TOKEN).build()
+            application = (
+                Application.builder()
+                .token(Config.TELEGRAM_BOT_TOKEN)
+                .concurrent_updates(True)
+                .build()
+            )
             
             # Add command handlers
             application.add_handler(CommandHandler("start", self.start_command))
@@ -199,7 +206,10 @@ Need help? Just ask! 🚀
             logger.info("Try messaging your bot on Telegram!")
             
             # Start the bot
-            application.run_polling(allowed_updates=Update.ALL_TYPES)
+            application.run_polling(
+                allowed_updates=Update.ALL_TYPES,
+                drop_pending_updates=True
+            )
             
         except Exception as e:
             logger.error(f"Error starting bot: {e}")

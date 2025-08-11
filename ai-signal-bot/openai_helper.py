@@ -10,9 +10,6 @@ class OpenAIHelper:
     
     def __init__(self):
         openai.api_key = Config.OPENAI_API_KEY
-        self.model = Config.OPENAI_MODEL
-        self.max_tokens = Config.OPENAI_MAX_TOKENS
-        self.temperature = Config.OPENAI_TEMPERATURE
     
     def build_analysis_prompt(self, ticker: str, price_data: dict, coin_id: str) -> str:
         """
@@ -38,12 +35,17 @@ Current Market Data:
 - Current Price: ${usd_price:.4f} USD (S${sgd_price:.4f} SGD)
 - 24h Change: {change_24h:.2f}%
 
-Structure your analysis like this:
-🚧 Resistance: $X.XX
-📊 Support: $X.XX
-⛔ Stop Loss: $X.XX
-💰 Risk/Reward: X:X
-🧓 Uncle say: Give a short 1-2 sentence summary in smart, not overly-done singlish.
+Please provide analysis in a conversational Singlish tone and include:
+
+1. **Support and Resistance Zones**: Based on current price levels
+2. **Entry Strategy**: Best entry points for swing trading
+3. **Stop Loss**: Recommended stop loss levels (percentage and price)
+4. **Take Profit**: Target profit levels with realistic expectations
+5. **Risk/Reward Ratio**: Calculate potential R:R for the trade
+6. **Market Sentiment**: Brief assessment of current market conditions
+7. **Swing Trading Summary**: 3-sentence summary for quick decision making
+
+Keep the response under 400 words and use some light Singlish expressions naturally. Focus on practical, actionable advice for a retail trader in Singapore.
 """
         return prompt.strip()
     
@@ -62,20 +64,20 @@ Structure your analysis like this:
         try:
             prompt = self.build_analysis_prompt(ticker, price_data, coin_id)
             
-            response = openai.chat.completions.create(
-                model=self.model,
+            response = openai.ChatCompletion.create(
+                model=Config.OPENAI_MODEL,
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a helpful expert crypto trading assistant based in Singapore. Speak in a slightly Singlish tone, like how locals talk. Keep your replies short, friendly, and a bit cheeky if appropriate. Use terms like ""lah"", ""leh"", ""wait a bit"", ""can consider"", ""not bad"", but do not overdo it."
+                        "content": "You are a professional crypto analyst with expertise in technical analysis and swing trading. You provide clear, actionable advice with a friendly Singlish touch for Singapore traders."
                     },
                     {
                         "role": "user",
                         "content": prompt
                     }
                 ],
-                max_tokens=self.max_tokens,
-                temperature=self.temperature,
+                max_tokens=Config.OPENAI_MAX_TOKENS,
+                temperature=Config.OPENAI_TEMPERATURE,
                 top_p=1,
                 frequency_penalty=0,
                 presence_penalty=0
@@ -121,8 +123,8 @@ Structure your analysis like this:
 
 ---
 
-⚠️ *Disclaimer:* Not financial advice. Do your own research before trading. Crypto can go up, down, and sideways — just like kopi prices.
+⚠️ *Disclaimer:* This analysis is for educational purposes only. Always DYOR (Do Your Own Research) and never invest more than you can afford to lose!
 
-Powered by @BotSignalSGBot 🤖. Dun say I bo jio ah.  \n\nSource: [CoinGecko](https://coingecko.com)
+_Powered by @BotSignalSGBot 🤖_
 """
         return header.strip()

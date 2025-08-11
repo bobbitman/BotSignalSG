@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: botsignalsgbot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run_bot.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: COINGECKO_API_KEY
+        sync: false
+      - key: BOT_USERNAME
+        value: BotSignalSGBot
+      - key: DEBUG_MODE
+        value: False
