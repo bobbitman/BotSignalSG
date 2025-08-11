@@ -35,7 +35,7 @@ Current Market Data:
 - Current Price: ${usd_price:.4f} USD (S${sgd_price:.4f} SGD)
 - 24h Change: {change_24h:.2f}%
 
-Please provide analysis in a conversational Singlish tone and include:
+Please provide analysis in a conversational tone and include:
 
 1. **Support and Resistance Zones**: Based on current price levels
 2. **Entry Strategy**: Best entry points for swing trading
@@ -45,7 +45,15 @@ Please provide analysis in a conversational Singlish tone and include:
 6. **Market Sentiment**: Brief assessment of current market conditions
 7. **Swing Trading Summary**: 3-sentence summary for quick decision making
 
-Keep the response under 400 words and use some light Singlish expressions naturally. Focus on practical, actionable advice for a retail trader in Singapore.
+Keep the response under 400 words and use some light expressions naturally. Focus on practical, actionable advice for a retail trader in Singapore.
+Structure your analysis like this:
+- Resistance: $X.XX
+- Support: $X.XX
+- Stop Loss: $X.XX
+- Risk/Reward: X:X
+- Take Profit: Target profit levels with realistic expectations.
+- Market Sentiment: Brief 1-sentence assessment of current market conditions.
+- Summary: Give a short 1-2 sentence summary.
 """
         return prompt.strip()
     
@@ -125,6 +133,6 @@ Keep the response under 400 words and use some light Singlish expressions natura
 
 ⚠️ *Disclaimer:* This analysis is for educational purposes only. Always DYOR (Do Your Own Research) and never invest more than you can afford to lose!
 
-_Powered by @BotSignalSGBot 🤖_
+Powered by @BotSignalSGBot 🤖\nSource: [CoinGecko](https://coingecko.com)
 """
         return header.strip()
