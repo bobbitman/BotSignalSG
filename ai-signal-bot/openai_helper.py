@@ -64,7 +64,7 @@ Keep the response under 400 words and use some light Singlish expressions natura
         try:
             prompt = self.build_analysis_prompt(ticker, price_data, coin_id)
             
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model=Config.OPENAI_MODEL,
                 messages=[
                     {
