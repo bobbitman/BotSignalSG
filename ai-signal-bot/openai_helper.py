@@ -28,14 +28,14 @@ class OpenAIHelper:
         change_24h = price_data.get('usd_24h_change', 0)
         
         prompt = f"""
-Analyze the cryptocurrency {ticker.upper()} for a Singapore-based swing trader.
+Analyze the cryptocurrency {ticker.upper()} for a swing trader.
 
 Current Market Data:
 - Coin: {coin_id.replace('-', ' ').title()} ({ticker.upper()})
 - Current Price: ${usd_price:.4f} USD (S${sgd_price:.4f} SGD)
 - 24h Change: {change_24h:.2f}%
 
-Please provide analysis in a conversational tone and include:
+Please provide analysis directly and not in a conversational manner. Make it include the following:
 
 1. **Support and Resistance Zones**: Based on current price levels
 2. **Entry Strategy**: Best entry points for swing trading
@@ -45,12 +45,12 @@ Please provide analysis in a conversational tone and include:
 6. **Market Sentiment**: Brief assessment of current market conditions
 7. **Swing Trading Summary**: 3-sentence summary for quick decision making
 
-Keep the response under 400 words and use some light expressions naturally. Focus on practical, actionable advice for a retail trader in Singapore.
+Keep the response under 300 words. Focus on practical, actionable advice for the summary.
 Structure your analysis like this:
-- Resistance: $X.XX
-- Support: $X.XX
-- Stop Loss: $X.XX
-- Risk/Reward: X:X
+- Resistance: $X.XXXX
+- Support: $X.XXXX
+- Stop Loss: $X.XXXX
+- Risk/Reward: X:XXXX
 - Take Profit: Target profit levels with realistic expectations.
 - Market Sentiment: Brief 1-sentence assessment of current market conditions.
 - Summary: Give a short 1-2 sentence summary.
