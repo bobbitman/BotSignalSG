@@ -185,3 +185,64 @@ class CoinGeckoHelper:
         result['success'] = True
         
         return result
+    
+    def get_coin_sector(self, coin_id: str) -> str:
+        """Fetch the primary sector/category for a coin"""
+        try:
+            url = f"{self.base_url}/coins/{coin_id}"
+            params = {
+                'localization': 'false',
+                'tickers': 'false',
+                'market_data': 'false',
+                'community_data': 'false',
+                'developer_data': 'false',
+                'sparkline': 'false'
+            }
+            response = requests.get(url, params=params, headers=self.headers, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+            categories = data.get('categories', [])
+            return categories[0] if categories else 'Unknown'
+        except requests.RequestException as e:
+            logger.error(f"Error fetching sector for {coin_id}: {e}")
+            return 'Unknown'
+
+    def get_top_movers(self) -> List[Dict]:
+        """Get top 10 coins filtered by market cap, volume and 24h change"""
+        try:
+            url = f"{self.base_url}/coins/markets"
+            params = {
+                'vs_currency': 'sgd',
+                'order': 'market_cap_desc',
+                'per_page': 250,
+                'page': 1,
+                'price_change_percentage': '24h'
+            }
+            response = requests.get(url, params=params, headers=self.headers, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            filtered = []
+            for coin in data:
+                market_cap = coin.get('market_cap') or 0
+                volume = coin.get('total_volume') or 0
+                pct_change = coin.get('price_change_percentage_24h') or 0
+                if (
+                    10_000_000 <= market_cap <= 100_000_000 and
+                    10 <= pct_change <= 50 and
+                    10_000_000 <= volume <= 100_000_000
+                ):
+                    sector = self.get_coin_sector(coin['id'])
+                    filtered.append({
+                        'symbol': coin['symbol'].upper(),
+                        'current_price': coin.get('current_price'),
+                        'price_change_24h': coin.get('price_change_24h'),
+                        'price_change_percentage_24h': pct_change,
+                        'sector': sector
+                    })
+
+            filtered.sort(key=lambda x: x['price_change_percentage_24h'], reverse=True)
+            return filtered[:10]
+        except requests.RequestException as e:
+            logger.error(f"Error fetching top movers: {e}")
+            return []

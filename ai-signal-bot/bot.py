@@ -32,12 +32,14 @@ I'm your AI-powered crypto analysis assistant, designed for Singapore traders! �
 
 *Available Commands:*
 • `/analyze <ticker>` - Get AI analysis for any cryptocurrency
+• `/top10` - Show today's hot movers
 • `/help` - Show this help message
 
 *Example Usage:*
 • `/analyze btc` - Analyze Bitcoin
 • `/analyze arb` - Analyze Arbitrum
 • `/analyze sol` - Analyze Solana
+• `/top10` - Show hot movers
 
 Ready to analyze some crypto? Just type `/analyze` followed by any coin ticker! 📈
 
@@ -69,6 +71,7 @@ _Powered by OpenAI & CoinGecko APIs_ 🤖
 • `/analyze eth`
 • `/analyze arb`
 • `/analyze matic`
+• `/top10`
 
 *Tips:*
 • Use common ticker symbols (BTC, ETH, SOL, etc.)
@@ -162,10 +165,42 @@ Need help? Just ask! 🚀
             "Try:\n"
             "• `/start` - Get started\n"
             "• `/analyze <ticker>` - Analyze a crypto\n"
+            "• `/top10` - Hot movers\n"
             "• `/help` - Get help\n\n"
             "Example: `/analyze btc`",
             parse_mode=ParseMode.MARKDOWN
         )
+    
+    async def top10_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle the /top10 command"""
+        try:
+            top_coins = self.coingecko.get_top_movers()
+            if not top_coins:
+                await update.message.reply_text(
+                    "😔 Couldn't fetch top movers right now. Please try again later.",
+                    parse_mode=ParseMode.MARKDOWN,
+                )
+                return
+
+            lines = [
+                "🔥 Here are the top 10 hot movers with strong 24h gains:",
+            ]
+            for coin in top_coins:
+                lines.append(
+                    f"• {coin['symbol']} - ${coin['current_price']:.4f} SGD "
+                    f"({coin['price_change_24h']:+.4f} SGD, {coin['price_change_percentage_24h']:+.2f}%) - {coin['sector']}"
+                )
+
+            await update.message.reply_text(
+                "\n".join(lines),
+                parse_mode=ParseMode.MARKDOWN,
+            )
+        except Exception as e:
+            logger.error(f"Error in top10 command: {e}")
+            await update.message.reply_text(
+                "❌ Error fetching top movers. Please try again later.",
+                parse_mode=ParseMode.MARKDOWN,
+            )
     
     def run(self):
         """Start the bot"""
@@ -201,6 +236,7 @@ Need help? Just ask! 🚀
             application.add_handler(CommandHandler("start", self.start_command))
             application.add_handler(CommandHandler("help", self.help_command))
             application.add_handler(CommandHandler("analyze", self.analyze_command))
+            application.add_handler(CommandHandler("top10", self.top10_command))
             
             logger.info(f"🚀 Starting {Config.BOT_USERNAME}...")
             logger.info("Bot is running! Press Ctrl+C to stop.")
